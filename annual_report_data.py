@@ -37,6 +37,13 @@ def up_or_down(latest_dca, last_dca):
             return (int(1))
 
 
+def cal_date_difference(milestone_date, old_milestone_date):
+    try:
+        time_delta = (milestone_date - old_milestone_date).days
+    except TypeError:
+        time_delta = 0
+    return time_delta
+
 '''function that places all information into the summary dashboard sheet'''
 def placing_excel(dict_one, dict_two):
 
@@ -44,14 +51,45 @@ def placing_excel(dict_one, dict_two):
         project_name = ws.cell(row=row_num, column=2).value
         print(project_name)
         if project_name in dict_one:
-            #ws.cell(row=row_num, column=4).value = dict_one[project_name]['Change']
+            dca_one = dict_one[project_name]['DCA']
+            try:
+                dca_two = dict_two[project_name]['DCA']
+                change = up_or_down(dca_one, dca_two)
+                ws.cell(row=row_num, column=4).value = change
+            except KeyError:
+                ws.cell(row=row_num, column=4).value = 'NEW'
             ws.cell(row=row_num, column=5).value = dict_one[project_name]['DCA']
-            ws.cell(row=row_num, column=6).value = dict_one[project_name]['Start Date']
-            ws.cell(row=row_num, column=7).value = dict_one[project_name]['End Date']
-            ws.cell(row=row_num, column=8).value = dict_one[project_name]['18/19 baseline']
-            ws.cell(row=row_num, column=9).value = dict_one[project_name]['18/19 forecast']
-            ws.cell(row=row_num, column=10).value = dict_one[project_name]['18/19 variance']
-            ws.cell(row=row_num, column=11).value = dict_one[project_name]['WLC baseline']
+
+            start_date_one = dict_one[project_name]['Start Date']
+            ws.cell(row=row_num, column=6).value = start_date_one
+            try:
+                start_date_two = dict_two[project_name]['Start Date']
+                s_date_diff = cal_date_difference(start_date_one, start_date_two)
+                ws.cell(row=row_num, column=7).value = s_date_diff
+            except KeyError:
+                ws.cell(row=row_num, column=7).value = 0
+
+            end_date_one = dict_one[project_name]['End Date']
+            ws.cell(row=row_num, column=8).value = end_date_one
+            try:
+                end_date_two = dict_two[project_name]['End Date']
+                e_date_diff = cal_date_difference(end_date_one, end_date_two)
+                ws.cell(row=row_num, column=9).value = e_date_diff
+            except KeyError:
+                ws.cell(row=row_num, column=9).value = 0
+
+            ws.cell(row=row_num, column=10).value = dict_one[project_name]['18/19 baseline']
+            ws.cell(row=row_num, column=11).value = dict_one[project_name]['18/19 forecast']
+            ws.cell(row=row_num, column=12).value = dict_one[project_name]['18/19 variance']
+            wlc_one = dict_one[project_name]['WLC baseline']
+            ws.cell(row=row_num, column=13).value = wlc_one
+            try:
+                wlc_two = dict_two[project_name]['WLC baseline']
+                wlc_diff = wlc_one - wlc_two
+                ws.cell(row=row_num, column=14).value = wlc_diff
+            except KeyError:
+                ws.cell(row=row_num, column=14).value = 0
+
 
     for row_num in range(2, ws.max_row + 1):
         project_name = ws.cell(row=row_num, column=2).value

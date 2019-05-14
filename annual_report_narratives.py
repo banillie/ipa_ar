@@ -155,7 +155,7 @@ def printing(dictionary_1, dictionary_2):
 
     for project_name in dictionary_1:
         new_para = doc.add_paragraph()
-        new_para.add_run(str(project_name))
+        new_para.add_run(str(project_name)).bold = True
         #new_para = doc.add_paragraph()
         dca_text = dictionary_1[project_name]['DCA narrative']
         try:
@@ -170,7 +170,7 @@ def printing(dictionary_1, dictionary_2):
 
     for project_name in dictionary_1:
         new_para = doc.add_paragraph()
-        new_para.add_run(str(project_name))
+        new_para.add_run(str(project_name)).bold = True
         #new_para = doc.add_paragraph()
         dca_text = dictionary_1[project_name]['Dpt narrative on schedule']
         try:
@@ -185,7 +185,7 @@ def printing(dictionary_1, dictionary_2):
 
     for project_name in dictionary_1:
         new_para = doc.add_paragraph()
-        new_para.add_run(str(project_name))
+        new_para.add_run(str(project_name)).bold = True
         # new_para = doc.add_paragraph()
         dca_text = dictionary_1[project_name]['narrative on variance']
         try:
@@ -200,7 +200,7 @@ def printing(dictionary_1, dictionary_2):
 
     for project_name in dictionary_1:
         new_para = doc.add_paragraph()
-        new_para.add_run(str(project_name))
+        new_para.add_run(str(project_name)).bold = True
         # new_para = doc.add_paragraph()
         dca_text = dictionary_1[project_name]['narrative on wlc']
         try:
@@ -213,10 +213,10 @@ def printing(dictionary_1, dictionary_2):
     return doc
 
 
-current_Q_dict = project_data_from_master('C:\\Users\\Standalone\\Will\\ipa_annual_report_2019_narratives.xlsx')
-last_Q_dict = project_data_from_master('C:\\Users\\Standalone\\Will\\ipa_annual_report_2018.xlsx')
+current_Q_dict = project_data_from_master('C:\\Users\\Standalone\\Will\\ipa_annual_report_2019_narratives_2.xlsx')
+last_Q_dict = project_data_from_master('C:\\Users\\Standalone\\Will\\ipa_annual_report_2019_narratives.xlsx')
 
 current_Q_list = list(current_Q_dict.keys())
 
 run = printing(current_Q_dict, last_Q_dict)
-run.save('C://Users//Standalone//Will//2019_IPA_annual_report_narratives_annex.docx')
+run.save('C://Users//Standalone//Will//2019_IPA_annual_report_narratives_annex_ver_2.docx')
